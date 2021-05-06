@@ -1,0 +1,14 @@
+.headLineWrapper {
+  background-color: rebeccapurple;
+  :global {
+    .nava {
+      background-color: #008000;
+    }
+    a {
+      color: white;
+    }
+    .new {
+      color: red;
+    }
+  }
+}

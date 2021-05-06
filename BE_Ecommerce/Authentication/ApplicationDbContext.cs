@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Ecommerce_API.Models;
+using BE_Ecommerce.Models;
 
-namespace Ecommerce_API.Authentication
+namespace BE_Ecommerce.Authentication
 {
     public class ApplicationDbContext:IdentityDbContext<ApplicationUser>
     {
@@ -22,11 +22,11 @@ namespace Ecommerce_API.Authentication
         {
             base.OnModelCreating(builder);
         }
-        public DbSet<Ecommerce_API.Models.Author> Author { get; set; }
-        public DbSet<Ecommerce_API.Models.Category> Category { get; set; }
-        public DbSet<Ecommerce_API.Models.Provider> Provider { get; set; }
-        public DbSet<Ecommerce_API.Models.Publisher> Publisher { get; set; }
-        public DbSet<Ecommerce_API.Models.Book> Book { get; set; }
-        public DbSet<Ecommerce_API.Models.Comment> Comment { get; set; }
+        public DbSet<BE_Ecommerce.Models.Author> Author { get; set; }
+        public DbSet<BE_Ecommerce.Models.Category> Category { get; set; }
+        public DbSet<BE_Ecommerce.Models.Provider> Provider { get; set; }
+        public DbSet<BE_Ecommerce.Models.Publisher> Publisher { get; set; }
+        public DbSet<BE_Ecommerce.Models.Book> Book { get; set; }
+        public DbSet<BE_Ecommerce.Models.Comment> Comment { get; set; }
     }
 }

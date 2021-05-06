@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210423113958_Initial")]
+    [Migration("20210505030413_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,168 @@ namespace Ecommerce_API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Author", b =>
+                {
+                    b.Property<int>("AuthorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AuthorID");
+
+                    b.ToTable("Author");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Book", b =>
+                {
+                    b.Property<int>("BookID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BookDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("BookPrice")
+                        .HasColumnType("real");
+
+                    b.Property<int>("CateID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProviderID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("PublisherDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PublisherID")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookID");
+
+                    b.HasIndex("AuthorID");
+
+                    b.HasIndex("CateID");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("ProviderID");
+
+                    b.HasIndex("PublisherID");
+
+                    b.ToTable("Book");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Category", b =>
+                {
+                    b.Property<int>("CateID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CateID");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BookID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CommentId");
+
+                    b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Provider", b =>
+                {
+                    b.Property<int>("ProviderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ProviderAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProviderID");
+
+                    b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Publisher", b =>
+                {
+                    b.Property<int>("PublisherID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PublisherEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublisherName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PublisherID");
+
+                    b.ToTable("Publisher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -217,6 +379,45 @@ namespace Ecommerce_API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Ecommerce_API.Models.Book", b =>
+                {
+                    b.HasOne("Ecommerce_API.Models.Author", "Author")
+                        .WithMany("Book")
+                        .HasForeignKey("AuthorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce_API.Models.Category", "Category")
+                        .WithMany("Book")
+                        .HasForeignKey("CateID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce_API.Models.Comment", null)
+                        .WithMany("Book")
+                        .HasForeignKey("CommentId");
+
+                    b.HasOne("Ecommerce_API.Models.Provider", "Provider")
+                        .WithMany("Book")
+                        .HasForeignKey("ProviderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce_API.Models.Publisher", "Publisher")
+                        .WithMany("Book")
+                        .HasForeignKey("PublisherID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Provider");
+
+                    b.Navigation("Publisher");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -266,6 +467,31 @@ namespace Ecommerce_API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Author", b =>
+                {
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Category", b =>
+                {
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Comment", b =>
+                {
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Provider", b =>
+                {
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Ecommerce_API.Models.Publisher", b =>
+                {
+                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }
